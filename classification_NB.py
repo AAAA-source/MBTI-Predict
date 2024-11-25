@@ -1,12 +1,12 @@
 import os
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import classification_report, accuracy_score
 
 # 定義資料夾路徑
-input_folder = "preprocessing/txt_output"  # 替換為存放原始文字檔案的資料夾路徑
+input_folder = "txt_output"  # 替換為存放原始文字檔案的資料夾路徑
 
 # 儲存處理後的資料
 texts = []  # 儲存文本
@@ -30,10 +30,10 @@ for filename in os.listdir(input_folder):
 if len(texts) == 0 or len(labels) == 0:
     raise ValueError("資料讀取失敗，請檢查輸入資料夾結構或內容格式！")
 
-# 初始化 TF-IDF 向量化器
-vectorizer = TfidfVectorizer( min_df=2 , max_df = 0.9 , stop_words = "english" )
+# 初始化 count vector 向量化器
+vectorizer = CountVectorizer()
 
-# 將文字資料轉換為 TF-IDF 特徵矩陣
+# 將文字資料轉換為 count vector 特徵矩陣
 X = vectorizer.fit_transform(texts)
 y = np.array(labels)
 
