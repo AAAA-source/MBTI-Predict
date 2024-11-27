@@ -52,7 +52,7 @@ cnb_model = ComplementNB()
 cnb_model.fit(X_train_cnb, y_train)
 
 # 訓練 SVM 模型
-svm_model = LinearSVC(random_state=42, class_weight="balanced", C=0.75)
+svm_model = LinearSVC(random_state=42, class_weight="balanced", C=5)
 svm_model.fit(X_train_svm, y_train)
 
 # 定義每個 label 的權重
