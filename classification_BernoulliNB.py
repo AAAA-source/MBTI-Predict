@@ -8,7 +8,7 @@ from sklearn.model_selection import StratifiedKFold
 
 
 # 定義資料夾路徑
-input_folder = "preprocessing/txt_output"  # 替換為你的檔案資料夾路徑
+input_folder = "txt_output"  # 替換為你的檔案資料夾路徑
 
 # 儲存處理後的資料
 texts = []

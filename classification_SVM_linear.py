@@ -38,7 +38,7 @@ X = vectorizer.fit_transform(texts)
 y = np.array(labels)
 
 # 初始化 SVM 模型
-model = LinearSVC(random_state=42 , class_weight="balanced" , C = 2)
+model = LinearSVC(random_state=42 , class_weight="balanced" , C = 0.75)
 
 # 設定 K-fold 交叉驗證
 kf = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)

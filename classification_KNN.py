@@ -38,7 +38,7 @@ X = vectorizer.fit_transform(texts)
 y = np.array(labels)
 
 # 初始化 KNN 模型
-model = KNeighborsClassifier(n_neighbors=5, metric='cosine')  # 使用 cosine 距離，可根據需求改為 'euclidean'
+model = KNeighborsClassifier(n_neighbors=3, metric='cosine')  # 使用 cosine 距離，可根據需求改為 'euclidean'
 
 # 設定 K-fold 交叉驗證
 kf = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)

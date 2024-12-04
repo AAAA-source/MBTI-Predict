@@ -52,7 +52,7 @@ models = []
 for i in range(4):
     # 抽取第 i 個字母作為目標
     y_train_binary = [label[i] for label in y_train]
-    model = KNeighborsClassifier(n_neighbors=5, metric='cosine')
+    model = KNeighborsClassifier(n_neighbors=4, metric='cosine')
     model.fit(X_train, y_train_binary)
     models.append(model)
 

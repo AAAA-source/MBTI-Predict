@@ -50,7 +50,7 @@ models = []
 for i in range(4):
     # 抽取第 i 個字母作為目標
     y_train_binary = [label[i] for label in y_train]
-    model = LinearSVC(random_state=42, class_weight="balanced", C=0.75)
+    model = LinearSVC(random_state=42, class_weight="balanced", C=2)
     model.fit(X_train, y_train_binary)
     models.append(model)
 
@@ -64,18 +64,36 @@ for i, model in enumerate(models):
 # 組合四個模型的結果為完整的 MBTI 類型
 final_predictions = ["".join(letters) for letters in zip(*predictions)]
 
-# 計算分類準確率
-correct_count = sum([1 for pred, true in zip(final_predictions, y_test) if pred == true])
-accuracy = correct_count / len(y_test)
 
-# 印出每個字母的分類報告
-for i, (letter, model) in enumerate(zip(mbti_letters, models)):
-    y_test_binary = [label[i] for label in y_test]
-    letter_predictions = predictions[i]
-    print(f"\n分類報告 for {letter}:")
-    print(classification_report(y_test_binary, letter_predictions, zero_division=1))
+from collections import Counter
 
-# 輸出整體結果
-print(f"\n測試資料總數: {len(y_test)}")
-print(f"正確分類數量: {correct_count}")
-print(f"分類準確率: {accuracy:.2%}")
+# 預測結果和實際類型的統計
+type_counts = Counter(y_test)  # 每種類型在測試集中實際出現的次數
+type_correct = Counter()       # 每種類型被正確分類的次數
+type_predicted = Counter()     # 每種類型被模型預測為該類型的次數
+
+# 統計正確分類、實際數量和預測數量
+for pred, true in zip(final_predictions, y_test):
+    if pred == true:
+        type_correct[true] += 1  # 正確分類的計數
+    type_predicted[pred] += 1    # 被預測為該類型的計數
+
+# 計算精確率（Precision）和召回率（Recall）
+type_metrics = {}
+for mbti in sorted(type_counts.keys()):
+    precision = type_correct[mbti] / type_predicted[mbti] if type_predicted[mbti] > 0 else 0
+    recall = type_correct[mbti] / type_counts[mbti] if type_counts[mbti] > 0 else 0
+    type_metrics[mbti] = {"precision": precision, "recall": recall}
+
+# 輸出每種類型的精確率和召回率
+print("\n各種類型的精確率和召回率:")
+for mbti, metrics in type_metrics.items():
+    print(f"{mbti}: Precision={metrics['precision']:.2%}, Recall={metrics['recall']:.2%}")
+
+# 額外輸出測試數量、正確數量和預測數量
+print("\n類型統計:")
+for mbti in sorted(type_counts.keys()):
+    print(f"{mbti}: 測試數量={type_counts[mbti]}, 正確數量={type_correct[mbti]}, 預測數量={type_predicted[mbti]}")
+
+
+

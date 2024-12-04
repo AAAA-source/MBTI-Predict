@@ -31,7 +31,7 @@ if len(texts) == 0 or len(labels) == 0:
     raise ValueError("資料讀取失敗，請檢查輸入資料夾結構或內容格式！")
 
 # 初始化 count vector 向量化器
-vectorizer = CountVectorizer()
+vectorizer = CountVectorizer(min_df=2, max_df=0.9, stop_words="english")
 
 # 將文字資料轉換為 count vector 特徵矩陣
 X = vectorizer.fit_transform(texts)
